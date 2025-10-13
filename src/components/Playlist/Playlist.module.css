@@ -1,6 +1,6 @@
-/* SearchResults.module.css */
+/* Playlist.module.css */
 
-.searchResults {
+.playlist {
   background-color: #282c34;
   border-radius: 8px;
   padding: 20px;
@@ -8,7 +8,7 @@
   margin: 20px auto;
 }
 
-.searchResults h2 {
+.playlist h2 {
   color: #1db954;
   margin-bottom: 16px;
   font-size: 24px;

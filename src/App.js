@@ -1,6 +1,8 @@
+import React, { useState } from "react";
 import "./App.css";
 import SearchBar from "./components/SearchBar/SearchBar";
 import SearchResults from "./components/SearchResults/SearchResults";
+import Playlist from "./components/Playlist/Playlist";
 
 function App() {
   const mockTracks = [
@@ -9,11 +11,20 @@ function App() {
     { id: 3, name: "Song 3", artist: "Artist 3", album: "Album 3" },
   ];
 
+  const [tracklist, setTracklist] = useState([]);
+
+  const addTrack = (track) => {
+    setTracklist((prev) => {
+      if (prev.some((t) => t.id === track.id)) return [...prev, track];
+    });
+  };
+
   return (
     <div className="App">
       <header className="App-header">
         <SearchBar />
-        <SearchResults tracks={mockTracks} />
+        <SearchResults tracks={mockTracks} onAdd={addTrack} />
+        <Playlist tracks={tracklist} onAdd={addTrack} />
         <p>ПЕНІС</p>
       </header>
     </div>
