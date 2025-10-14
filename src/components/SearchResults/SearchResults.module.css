@@ -3,9 +3,13 @@
 .searchResults {
   background-color: #282c34;
   border-radius: 8px;
+  flex: 1 1 0;
+  min-width: 0;
   padding: 20px;
-  max-width: 600px;
-  margin: 20px auto;
+  width: 300px;
+  max-width: 100%;
+  margin: 20px 0;
+  box-sizing: border-box;
 }
 
 .searchResults h2 {

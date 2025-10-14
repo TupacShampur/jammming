@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 import styles from "./SearchBar.module.css";
 
-function SearchBar() {
+function SearchBar({ tracks }) {
   const [search, setSearch] = useState("");
 
   const handleChange = (e) => {
     setSearch(e.target.value);
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = (tracks) => {
     console.log(`Search for: ${search}`);
   };
 

@@ -15,7 +15,8 @@ function App() {
 
   const addTrack = (track) => {
     setTracklist((prev) => {
-      if (prev.some((t) => t.id === track.id)) return [...prev, track];
+      if (prev.some((t) => t.id === track.id)) return prev;
+      return [...prev, track];
     });
   };
 
@@ -23,9 +24,10 @@ function App() {
     <div className="App">
       <header className="App-header">
         <SearchBar />
-        <SearchResults tracks={mockTracks} onAdd={addTrack} />
-        <Playlist tracks={tracklist} onAdd={addTrack} />
-        <p>ПЕНІС</p>
+        <div className="mainContent">
+          <SearchResults tracks={mockTracks} onAdd={addTrack} />
+          <Playlist tracks={tracklist} onAdd={addTrack} />
+        </div>
       </header>
     </div>
   );
