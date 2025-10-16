@@ -16,3 +16,26 @@
   margin-bottom: 16px;
   font-size: 24px;
 }
+
+.playlistTitleInput {
+  width: 100%;
+  padding: 0;
+  margin-bottom: 16px;
+  font-size: 24px;
+  font-weight: bold;
+  border: none;
+  border-radius: 0;
+  background: transparent;
+  color: #1db954;
+  outline: none;
+  text-align: center;
+  display: block;
+  font-family: inherit;
+  box-sizing: border-box;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.playlistTitleInput:focus {
+  border-color: #1db954;
+}

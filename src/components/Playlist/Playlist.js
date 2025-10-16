@@ -2,12 +2,15 @@ import React, { useState } from "react";
 import styles from "./Playlist.module.css";
 import Tracklist from "../Tracklist/Tracklist";
 
-function Playlist({ tracks, onAdd }) {
+function Playlist({ tracks, onRemove, isRemoval }) {
   return (
     <>
       <div className={styles.playlist}>
-        <h2>Playlist</h2>
-        <Tracklist tracks={tracks} onAdd={onAdd} />
+        <input
+          className={styles.playlistTitleInput}
+          placeholder="Edit playlist name..."
+        ></input>
+        <Tracklist tracks={tracks} onRemove={onRemove} isRemoval={isRemoval} />
       </div>
     </>
   );

@@ -20,13 +20,29 @@ function App() {
     });
   };
 
+  const removeTrack = (track) => {
+    setTracklist((prev) => {
+      return prev.filter((t) => {
+        return t.id !== track.id;
+      });
+    });
+  };
+
   return (
     <div className="App">
       <header className="App-header">
         <SearchBar />
         <div className="mainContent">
-          <SearchResults tracks={mockTracks} onAdd={addTrack} />
-          <Playlist tracks={tracklist} onAdd={addTrack} />
+          <SearchResults
+            tracks={mockTracks}
+            onAdd={addTrack}
+            isRemoval={false}
+          />
+          <Playlist
+            tracks={tracklist}
+            onRemove={removeTrack}
+            isRemoval={true}
+          />
         </div>
       </header>
     </div>
