@@ -3,6 +3,7 @@ import "./App.css";
 import SearchBar from "./components/SearchBar/SearchBar";
 import SearchResults from "./components/SearchResults/SearchResults";
 import Playlist from "./components/Playlist/Playlist";
+import { authorize } from "./components/accessToken/accessToken";
 
 function App() {
   const mockTracks = [
@@ -57,6 +58,7 @@ function App() {
     <div className="App">
       <header className="App-header">
         <SearchBar />
+        <button onClick={authorize}>Log in with Spotify</button>
         <div className="mainContent">
           <SearchResults
             tracks={mockTracks}
