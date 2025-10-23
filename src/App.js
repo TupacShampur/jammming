@@ -1,11 +1,15 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./App.css";
 import SearchBar from "./components/SearchBar/SearchBar";
 import SearchResults from "./components/SearchResults/SearchResults";
 import Playlist from "./components/Playlist/Playlist";
-import { authorize } from "./components/accessToken/accessToken";
+import { startAuth, authorize } from "./components/accessToken/accessToken";
 
 function App() {
+  useEffect(() => {
+    authorize(); // обмін і очистка URL
+  }, []);
+
   const mockTracks = [
     {
       id: 1,
@@ -58,7 +62,7 @@ function App() {
     <div className="App">
       <header className="App-header">
         <SearchBar />
-        <button onClick={authorize}>Log in with Spotify</button>
+        <button onClick={startAuth}>Log in with Spotify</button>
         <div className="mainContent">
           <SearchResults
             tracks={mockTracks}

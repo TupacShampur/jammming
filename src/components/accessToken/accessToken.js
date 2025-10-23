@@ -1,35 +1,76 @@
-// import React, { useState } from "react";
+// accessToken.js
+const clientId = "6a35cc5c249542dcb9a4095ccbcd0dab";
+const redirectUri = "http://127.0.0.1:3000/";
 
-// const [token, setToken] = useState("");
-console.log("AUTH MODULE LOADED");
+// 1) ЛИШЕ редірект + PKCE, без умов
+export const startAuth = async () => {
+  const generateRandomString = (len) => {
+    const chars =
+      "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    const vals = crypto.getRandomValues(new Uint8Array(len));
+    return [...vals].map((v) => chars[v % chars.length]).join("");
+  };
 
-// let token = "";
+  const codeVerifier = generateRandomString(64);
+  const sha256 = async (s) =>
+    crypto.subtle.digest("SHA-256", new TextEncoder().encode(s));
+  const base64url = (buf) =>
+    btoa(String.fromCharCode(...new Uint8Array(buf)))
+      .replace(/=/g, "")
+      .replace(/\+/g, "-")
+      .replace(/\//g, "_");
 
-const generateRandomString = (n) =>
-  Math.random()
-    .toString(36)
-    .substring(2, 2 + n);
+  const codeChallenge = base64url(await sha256(codeVerifier));
+  localStorage.setItem("code_verifier", codeVerifier);
 
-export const authorize = () => {
-  const client_id = "6a35cc5c249542dcb9a4095ccbcd0dab";
-  const redirect_uri = "http://127.0.0.1:3000/";
+  const auth = new URL("https://accounts.spotify.com/authorize");
+  auth.search = new URLSearchParams({
+    response_type: "code",
+    client_id: clientId,
+    redirect_uri: redirectUri,
+    scope: "playlist-modify-public",
+    code_challenge_method: "S256",
+    code_challenge: codeChallenge,
+  }).toString();
 
-  const state = generateRandomString(16);
-  const stateKey = "spotify_auth_state";
+  window.location.href = auth.toString();
+};
 
-  localStorage.setItem(stateKey, state);
-  const scope = "playlist-modify-public";
+// 2) ЛИШЕ обмін коду, без жодних редіректів
+export const authorize = async () => {
+  const params = new URLSearchParams(window.location.search);
+  const code = params.get("code");
+  if (!code) return; // <- якщо коду нема — ВИХІД, НІЯКИХ startAuth!
 
-  const code_challenge_method = S256;
+  const codeVerifier = localStorage.getItem("code_verifier");
+  if (!codeVerifier) return;
 
-  let url = "https://accounts.spotify.com/authorize";
-  url += "?response_type=code";
-  url += "&client_id=" + encodeURIComponent(client_id);
-  url += "&redirect_uri=" + encodeURIComponent(redirect_uri);
-  url += "&code_challenge_method=" + encodeURIComponent(code_challenge_method);
-  url += "&scope=" + encodeURIComponent(scope);
-  url += "&state=" + encodeURIComponent(state);
+  const res = await fetch("https://accounts.spotify.com/api/token", {
+    method: "POST",
+    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    body: new URLSearchParams({
+      client_id: clientId,
+      grant_type: "authorization_code",
+      code,
+      redirect_uri: redirectUri,
+      code_verifier: codeVerifier,
+    }),
+  });
 
-  console.log(url);
-  window.location = url;
+  if (!res.ok) {
+    console.error("Token exchange failed:", await res.text());
+    return;
+  }
+
+  const data = await res.json();
+  localStorage.setItem("access_token", data.access_token);
+  if (data.refresh_token)
+    localStorage.setItem("refresh_token", data.refresh_token);
+  localStorage.setItem(
+    "expires_at",
+    String(Date.now() + data.expires_in * 1000)
+  );
+
+  // очистити URL від ?code
+  window.history.replaceState(null, "", window.location.pathname);
 };
