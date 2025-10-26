@@ -3,38 +3,32 @@ import "./App.css";
 import SearchBar from "./components/SearchBar/SearchBar";
 import SearchResults from "./components/SearchResults/SearchResults";
 import Playlist from "./components/Playlist/Playlist";
-import { startAuth, authorize } from "./components/accessToken/accessToken";
+import {
+  startAuth,
+  authorize,
+  token,
+} from "./components/accessToken/accessToken";
+import { fetchTrack } from "./components/accessTrack/accessTrack";
+// import { fetchProfile } from "./components/accessProfile/accessProfile";
 
 function App() {
   useEffect(() => {
-    authorize(); // обмін і очистка URL
+    authorize();
   }, []);
 
-  const mockTracks = [
-    {
-      id: 1,
-      name: "Song 1",
-      artist: "Artist 1",
-      album: "Album 1",
-      uri: "spotify:track:2fi69bgAKtSBFnCGCTNQFp",
-    },
-    {
-      id: 2,
-      name: "Song 2",
-      artist: "Artist 2",
-      album: "Album 2",
-      uri: "spotify:track:7i3JVEk8OkTk8z5ZreAq2F",
-    },
-    {
-      id: 3,
-      name: "Song 3",
-      artist: "Artist 3",
-      album: "Album 3",
-      uri: "spotify:track:6GyDY0yE47rfk8pcuKhioh",
-    },
-  ];
+  // useEffect(() => {
+  //   (async () => {
+  //     const data = await fetchProfile(token);
+  //     console.log(data);
+  //   })();
+  // }, []);
 
+  const [searchResults, setSearchResults] = useState([]);
   const [tracklist, setTracklist] = useState([]);
+
+  const handleSearch = (tracks) => {
+    setSearchResults(tracks);
+  };
 
   const addTrack = (track) => {
     setTracklist((prev) => {
@@ -61,11 +55,11 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <SearchBar />
+        <SearchBar token={token} onSearch={handleSearch} />
         <button onClick={startAuth}>Log in with Spotify</button>
         <div className="mainContent">
           <SearchResults
-            tracks={mockTracks}
+            tracks={searchResults}
             onAdd={addTrack}
             isRemoval={false}
           />

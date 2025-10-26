@@ -1,8 +1,6 @@
-// accessToken.js
 const clientId = "6a35cc5c249542dcb9a4095ccbcd0dab";
-const redirectUri = "http://127.0.0.1:3000/";
+const redirectUri = "http://127.0.0.1:3000";
 
-// 1) ЛИШЕ редірект + PKCE, без умов
 export const startAuth = async () => {
   const generateRandomString = (len) => {
     const chars =
@@ -36,11 +34,15 @@ export const startAuth = async () => {
   window.location.href = auth.toString();
 };
 
-// 2) ЛИШЕ обмін коду, без жодних редіректів
 export const authorize = async () => {
   const params = new URLSearchParams(window.location.search);
   const code = params.get("code");
-  if (!code) return; // <- якщо коду нема — ВИХІД, НІЯКИХ startAuth!
+  if (!code) return;
+
+  if (sessionStorage.getItem("pkce_exchanging") === "1") return;
+  sessionStorage.setItem("pkce_exchanging", "1");
+
+  window.history.replaceState(null, "", window.location.pathname);
 
   const codeVerifier = localStorage.getItem("code_verifier");
   if (!codeVerifier) return;
@@ -71,6 +73,7 @@ export const authorize = async () => {
     String(Date.now() + data.expires_in * 1000)
   );
 
-  // очистити URL від ?code
-  window.history.replaceState(null, "", window.location.pathname);
+  sessionStorage.removeItem("pkce_exchanging");
 };
+
+export const token = localStorage.getItem("access_token");
