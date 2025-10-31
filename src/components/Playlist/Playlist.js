@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import styles from "./Playlist.module.css";
 import Tracklist from "../Tracklist/Tracklist";
+import { fetchProfile } from "../accessProfile/accessProfile";
+
+export async function accessPlaylist(token, userID) {}
 
 function Playlist({ tracks, onRemove, isRemoval, onSave }) {
   return (

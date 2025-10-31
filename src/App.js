@@ -2,29 +2,29 @@ import React, { useEffect, useState } from "react";
 import "./App.css";
 import SearchBar from "./components/SearchBar/SearchBar";
 import SearchResults from "./components/SearchResults/SearchResults";
-import Playlist from "./components/Playlist/Playlist";
-import {
-  startAuth,
-  authorize,
-  token,
-} from "./components/accessToken/accessToken";
-import { fetchTrack } from "./components/accessTrack/accessTrack";
-// import { fetchProfile } from "./components/accessProfile/accessProfile";
+import Playlist, { accessPlaylist } from "./components/Playlist/Playlist";
+import { startAuth, authorize } from "./components/accessToken/accessToken";
+// import { fetchTrack } from "./components/accessTrack/accessTrack";
+import { fetchProfile, userID } from "./components/accessProfile/accessProfile";
 
 function App() {
-  useEffect(() => {
-    authorize();
-  }, []);
-
-  // useEffect(() => {
-  //   (async () => {
-  //     const data = await fetchProfile(token);
-  //     console.log(data);
-  //   })();
-  // }, []);
-
+  const [token, setToken] = useState(localStorage.getItem("access_token"));
   const [searchResults, setSearchResults] = useState([]);
   const [tracklist, setTracklist] = useState([]);
+  const [userID, setUserID] = useState("");
+
+  useEffect(() => {
+    const handleAuth = async () => {
+      await authorize();
+      const newToken = localStorage.getItem("access_token");
+      setToken(newToken);
+
+      const newUserID = localStorage.getItem("userID");
+      setUserID(newUserID);
+    };
+
+    handleAuth();
+  }, []);
 
   const handleSearch = (tracks) => {
     setSearchResults(tracks);
@@ -47,7 +47,8 @@ function App() {
 
   const savePlaylist = () => {
     const trackUris = tracklist.map((track) => track.uri);
-    console.log(trackUris);
+    fetchProfile(token);
+    accessPlaylist(token, userID);
 
     setTracklist([]);
   };

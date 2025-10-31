@@ -1,3 +1,5 @@
+import { useEffect, useState } from "react";
+
 const clientId = "6a35cc5c249542dcb9a4095ccbcd0dab";
 const redirectUri = "http://127.0.0.1:3000";
 
@@ -75,5 +77,3 @@ export const authorize = async () => {
 
   sessionStorage.removeItem("pkce_exchanging");
 };
-
-export const token = localStorage.getItem("access_token");

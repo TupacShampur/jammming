@@ -3,5 +3,9 @@ export async function fetchProfile(token) {
     method: "GET",
     headers: { Authorization: `Bearer ${token}` },
   });
-  return await result.json();
+  const res = await result.json();
+  localStorage.setItem("userID", res.id);
+
+  console.log(res);
+  return res;
 }
