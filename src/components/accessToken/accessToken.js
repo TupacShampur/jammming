@@ -4,6 +4,8 @@ const clientId = "6a35cc5c249542dcb9a4095ccbcd0dab";
 const redirectUri = "http://127.0.0.1:3000";
 
 export const startAuth = async () => {
+  localStorage.clear();
+
   const generateRandomString = (len) => {
     const chars =
       "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -28,21 +30,24 @@ export const startAuth = async () => {
     response_type: "code",
     client_id: clientId,
     redirect_uri: redirectUri,
-    scope: "playlist-modify-public",
+    scope:
+      "playlist-modify-public playlist-modify-private playlist-read-private",
+
     code_challenge_method: "S256",
     code_challenge: codeChallenge,
   }).toString();
+
+  console.log("Повний URL авторизації:", auth.toString());
 
   window.location.href = auth.toString();
 };
 
 export const authorize = async () => {
+  console.log("1. authorize() почалась");
+
   const params = new URLSearchParams(window.location.search);
   const code = params.get("code");
   if (!code) return;
-
-  if (sessionStorage.getItem("pkce_exchanging") === "1") return;
-  sessionStorage.setItem("pkce_exchanging", "1");
 
   window.history.replaceState(null, "", window.location.pathname);
 
@@ -74,6 +79,4 @@ export const authorize = async () => {
     "expires_at",
     String(Date.now() + data.expires_in * 1000)
   );
-
-  sessionStorage.removeItem("pkce_exchanging");
 };

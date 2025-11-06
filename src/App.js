@@ -19,6 +19,7 @@ function App() {
       const newToken = localStorage.getItem("access_token");
       setToken(newToken);
 
+      newToken && (await fetchProfile(newToken));
       const newUserID = localStorage.getItem("userID");
       setUserID(newUserID);
     };
@@ -45,10 +46,10 @@ function App() {
     });
   };
 
-  const savePlaylist = () => {
+  const savePlaylist = async () => {
     const trackUris = tracklist.map((track) => track.uri);
-    fetchProfile(token);
-    accessPlaylist(token, userID);
+    // fetchProfile(token);
+    await accessPlaylist(token, userID);
 
     setTracklist([]);
   };
