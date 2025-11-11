@@ -37,21 +37,20 @@ export const startAuth = async () => {
     code_challenge: codeChallenge,
   }).toString();
 
-  console.log("Повний URL авторизації:", auth.toString());
-
   window.location.href = auth.toString();
 };
 
 export const authorize = async () => {
-  console.log("1. authorize() почалась");
-
   const params = new URLSearchParams(window.location.search);
   const code = params.get("code");
-  if (!code) return;
+  if (!code) {
+    return;
+  }
 
   window.history.replaceState(null, "", window.location.pathname);
 
   const codeVerifier = localStorage.getItem("code_verifier");
+  console.log(codeVerifier);
   if (!codeVerifier) return;
 
   const res = await fetch("https://accounts.spotify.com/api/token", {

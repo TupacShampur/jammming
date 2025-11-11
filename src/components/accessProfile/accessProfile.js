@@ -6,6 +6,5 @@ export async function fetchProfile(token) {
   const res = await result.json();
   localStorage.setItem("userID", res.id);
 
-  console.log(res);
   return res;
 }

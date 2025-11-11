@@ -16,14 +16,16 @@ function App() {
   useEffect(() => {
     const handleAuth = async () => {
       await authorize();
+
       const newToken = localStorage.getItem("access_token");
       setToken(newToken);
 
-      newToken && (await fetchProfile(newToken));
-      const newUserID = localStorage.getItem("userID");
-      setUserID(newUserID);
+      if (newToken) {
+        await fetchProfile(newToken);
+        const newUserID = localStorage.getItem("userID");
+        setUserID(newUserID);
+      }
     };
-
     handleAuth();
   }, []);
 
@@ -46,17 +48,10 @@ function App() {
     });
   };
 
-  const savePlaylist = async () => {
-    const trackUris = tracklist.map((track) => track.uri);
-    // fetchProfile(token);
-    await accessPlaylist(token, userID);
-
-    setTracklist([]);
-  };
-
   return (
     <div className="App">
       <header className="App-header">
+        <h1 className="App-label">Jammming</h1>
         <SearchBar token={token} onSearch={handleSearch} />
         <button onClick={startAuth}>Log in with Spotify</button>
         <div className="mainContent">
@@ -66,10 +61,12 @@ function App() {
             isRemoval={false}
           />
           <Playlist
+            token={token}
+            userID={userID}
             tracks={tracklist}
+            setTracklist={setTracklist}
             onRemove={removeTrack}
             isRemoval={true}
-            onSave={savePlaylist}
           />
         </div>
       </header>
