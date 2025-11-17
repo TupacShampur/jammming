@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 const clientId = "6a35cc5c249542dcb9a4095ccbcd0dab";
-const redirectUri = "http://127.0.0.1:3000";
+const redirectUri = window.location.origin;
 
 export const startAuth = async () => {
   localStorage.clear();
