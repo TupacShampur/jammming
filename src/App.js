@@ -50,10 +50,14 @@ function App() {
 
   return (
     <div className="App">
-      <header className="App-header">
+      <div className="header">
         <h1 className="App-label">Jammming</h1>
+        <button className="App-login" onClick={startAuth}>
+          Log in
+        </button>
+      </div>
+      <header className="App-content">
         <SearchBar token={token} onSearch={handleSearch} />
-        <button onClick={startAuth}>Log in with Spotify</button>
         <div className="mainContent">
           <SearchResults
             tracks={searchResults}

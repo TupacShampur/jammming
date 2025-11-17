@@ -9,22 +9,39 @@
   transition: border-color 0.3s;
   width: 100%;
   box-sizing: border-box;
+  min-height: 80px;
+  height: 80px; /* Або фіксована висота */
 }
 
 .track:hover {
   border-color: #1db954;
 }
 
+.track > div {
+  flex: 1;
+  min-width: 0; /* Дозволяє текст обрізати */
+  overflow: hidden;
+}
+
+.trackBox {
+  background-color: inherit;
+  /* height: 100%; */
+}
+
 .track h3 {
-  color: #fff;
-  font-size: 18px;
-  margin: 0 0 4px 0;
+  margin: 0 0 8px 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 20px;
 }
 
 .track p {
-  color: #aaa;
-  font-size: 14px;
   margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 12px;
 }
 
 .track button {

@@ -45,6 +45,10 @@ function Playlist({
   const [playlistName, setPlaylistName] = useState("");
 
   const savePlaylist = async () => {
+    if (!token) {
+      alert("Please log in");
+      return;
+    }
     console.log(playlistName);
     const trackUris = tracks.map((track) => track.uri);
     // fetchProfile(token);

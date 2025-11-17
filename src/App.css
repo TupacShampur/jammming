@@ -9,30 +9,61 @@ p {
   margin: 0;
 }
 
-.App {
-  text-align: center;
+body {
+  background-color: #282c34;
 }
 
-.App-header {
+.App {
+  text-align: center;
+  width: 75%;
+  margin: 0 auto;
+  padding-top: 24px;
+}
+
+.App-content {
   background-color: #282c34;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  /* padding-top: 60px; */
+  justify-content: flex-start;
+  padding-top: 60px;
   gap: 24px;
   font-size: calc(10px + 2vmin);
   color: white;
-  /* margin-bottom: 24px; */
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  /* background-color: #282c34; */
+  width: 75%;
+  margin: 0 auto;
 }
 
 .App-label {
-  margin-bottom: 20px;
-  font-size: 3rem;
+  font-size: 2rem;
   font-weight: 700;
   color: #1db954;
 }
+
+.App-login {
+  padding: 12px 24px;
+  font-size: 16px;
+  font-weight: 600;
+  background-color: #282c34;
+  color: #fff;
+  border: 1px solid #1db954;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: border bac0.3s;
+}
+
+.App-login:hover {
+  border: 1px solid #1ed760;
+}
+
 .mainContent {
   display: flex;
   gap: 16px;

@@ -5,7 +5,7 @@ function Track({ track, onAdd, onRemove, isRemoval }) {
   return (
     <>
       <div key={track.id} className={styles.track}>
-        <div>
+        <div className={styles.trackBox}>
           <h3>{track.name}</h3>
           <p>
             {track.artist} | {track.album}

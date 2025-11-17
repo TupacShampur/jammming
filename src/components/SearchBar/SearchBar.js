@@ -10,16 +10,29 @@ function SearchBar({ token, onSearch }) {
   };
 
   const handleSubmit = async (search) => {
-    const results = await fetchTrack(token, search);
+    if (!search) {
+      alert("Enter a song name");
+      return;
+    }
+    if (!token) {
+      alert("Please log in");
+      return;
+    }
 
-    const tracks = results.tracks.items.map((track) => ({
-      id: track.id,
-      name: track.name,
-      artist: track.artists[0].name,
-      album: track.album.name,
-      uri: track.uri,
-    }));
-    onSearch(tracks);
+    try {
+      const results = await fetchTrack(token, search);
+
+      const tracks = results.tracks.items.map((track) => ({
+        id: track.id,
+        name: track.name,
+        artist: track.artists[0].name,
+        album: track.album.name,
+        uri: track.uri,
+      }));
+      onSearch(tracks);
+    } catch (e) {
+      alert(e);
+    }
   };
 
   return (
