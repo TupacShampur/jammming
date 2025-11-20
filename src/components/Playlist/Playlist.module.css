@@ -1,0 +1,63 @@
+/* Playlist.module.css */
+
+.playlist {
+  background-color: #282c34;
+  border-radius: 8px;
+  padding: 20px;
+  flex: 0 0 300px;
+  width: 300px;
+  max-width: 100%;
+  box-sizing: border-box;
+  margin: 20px 0;
+}
+
+.playlist h2 {
+  color: #1db954;
+  margin-bottom: 16px;
+  font-size: 24px;
+}
+
+.playlistTitleInput {
+  width: 100%;
+  padding: 0;
+  margin-bottom: 16px;
+  font-size: 24px;
+  font-weight: bold;
+  border: none;
+  border-radius: 0;
+  background: transparent;
+  color: #1db954;
+  outline: none;
+  text-align: center;
+  display: block;
+  font-family: inherit;
+  box-sizing: border-box;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.playlistTitleInput:focus {
+  border-color: #1db954;
+}
+
+.saveButton {
+  width: 100%;
+  padding: 12px 24px;
+  margin-top: 16px;
+  font-size: 16px;
+  font-weight: 600;
+  background-color: #1db954;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.saveButton:hover {
+  background-color: #1ed760;
+}
+
+.saveButton:active {
+  transform: scale(0.98);
+}
