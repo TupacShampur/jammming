@@ -14,9 +14,9 @@ function App() {
   const [userID, setUserID] = useState("");
 
   useEffect(() => {
-    console.log(window.location.origin)
     const handleAuth = async () => {
       await authorize();
+      const expiresAt = localStorage.getItem("expires_at");
       const newToken = localStorage.getItem("access_token");
       setToken(newToken);
 
@@ -25,6 +25,9 @@ function App() {
         const newUserID = localStorage.getItem("userID");
         setUserID(newUserID);
       }
+      if (expiresAt < Date.now()) {
+        localStorage.clear()
+      } 
     };
     handleAuth();
   }, []);

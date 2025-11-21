@@ -41,7 +41,6 @@ export const startAuth = async () => {
 };
 
 export const authorize = async () => {
-  console.log(redirectUri)
   const params = new URLSearchParams(window.location.search);
   const code = params.get("code");
   if (!code) {
@@ -51,8 +50,6 @@ export const authorize = async () => {
   window.history.replaceState(null, "", window.location.pathname);
   
   const codeVerifier = localStorage.getItem("code_verifier");
-  console.log(window.location.origin)
-  console.log(codeVerifier);
   if (!codeVerifier) return;
 
   const res = await fetch("https://accounts.spotify.com/api/token", {
